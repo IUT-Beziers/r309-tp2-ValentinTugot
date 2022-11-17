@@ -54,7 +54,7 @@ class Client():
         
     def place(self,x,y):
         canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.nom = Label(root,text=f'router{self.getID()}')
+        self.nom = Label(root,text=f'client{self.getID()}')
         self.nom.place(x=x-25,y=y+30)
         self.id +=1
         
@@ -71,7 +71,7 @@ class Switch():
         
     def place(self,x,y):
         self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.nom = Label(root,text=f'router{self.getID()}')
+        self.nom = Label(root,text=f'switch{self.getID()}')
         self.nom.place(x=x-25,y=y+30)
         self.id +=1
         canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
