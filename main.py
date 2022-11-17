@@ -31,9 +31,11 @@ class Router():
         self.img = (Image.open("assets/router.png"))
         self.resize = self.img.resize((100,100))
         self.image = ImageTk.PhotoImage(self.resize)
+        self.nom = Label(root,text="router")
         
     def place(self,x,y):
         canva.create_image(x,y,image=self.image,anchor=CENTER)
+        self.nom.place(x=x,y=   y)
 
 class Client():
     def __init__(self) -> None:
@@ -51,9 +53,13 @@ class Switch():
         self.image = ImageTk.PhotoImage(self.resize)
         
     def place(self,x,y):
-        canva.create_image(x,y,image=self.image,anchor=CENTER)
+        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
+        canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
+        
+    def move(self,e):
+        canva.create_image(e.x,e.y,image=self.image,anchor=CENTER)
+        
 
-    
 #Instancie les objets
 sel = Selector()
 router = Router()
