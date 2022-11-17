@@ -31,29 +31,49 @@ class Router():
         self.img = (Image.open("assets/router.png"))
         self.resize = self.img.resize((100,100))
         self.image = ImageTk.PhotoImage(self.resize)
-        self.nom = Label(root,text="router")
-        
+        self.id = 0
+    
+    def getID(self):
+        return self.id
+
     def place(self,x,y):
         canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.nom.place(x=x,y=   y)
-
+        self.nom = Label(root,text=f'router{self.getID()}')
+        self.nom.place(x=x-25,y=y+30)
+        self.id +=1
+        
 class Client():
     def __init__(self) -> None:
         self.img = (Image.open("assets/client.png"))
         self.resize = self.img.resize((100,100))
         self.image = ImageTk.PhotoImage(self.resize)
+        self.id = 0
+        
+    def getID(self):
+        return self.id
         
     def place(self,x,y):
         canva.create_image(x,y,image=self.image,anchor=CENTER)
+        self.nom = Label(root,text=f'router{self.getID()}')
+        self.nom.place(x=x-25,y=y+30)
+        self.id +=1
+        
 
 class Switch():
     def __init__(self) -> None:
         self.img = (Image.open("assets/switch.png"))
         self.resize = self.img.resize((100,100))
         self.image = ImageTk.PhotoImage(self.resize)
+        self.id = 0
+        
+    def getID(self):
+        return self.id   
         
     def place(self,x,y):
         self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
+        self.nom = Label(root,text=f'router{self.getID()}')
+        self.nom.place(x=x-25,y=y+30)
+        self.id +=1
         canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
         
     def move(self,e):
