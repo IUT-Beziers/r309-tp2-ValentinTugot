@@ -1,7 +1,6 @@
 from tkinter import *
 from PIL import Image,ImageTk
 
-
 #Definition de la fenêtre et du canva
 root = Tk()
 root.geometry("1280x720")
@@ -28,6 +27,7 @@ class Selector():
     def __init__(self) -> None:
         self.etat = "Selection"
 
+#Listes des objets crées
 routerList = []
 clientList = []
 switchList = []
@@ -92,8 +92,7 @@ class Router(Elements):
     def remove(self):
         super().remove()
         routerList.pop(self.index)
-    
-        
+          
 class Client(Elements):
     def __init__(self) -> None:
         super().__init__()
@@ -142,7 +141,6 @@ class Switch(Elements):
         super().remove()
         switchList.pop(self.index)
             
-
 #Instancie les objets
 sel = Selector()
 
@@ -173,8 +171,7 @@ def changeSelector(e):
     elif e.char == "n":
         sel.etat="Selection"
     
-
-#Gestion des Menu
+#Gestion du menu (toolbar)
 toolbar = Menu(root)
 root.config(menu=toolbar)
 add_menu = Menu(toolbar)
@@ -184,8 +181,7 @@ add_menu.add_command(label="Client",command=setClient)
 add_menu.add_command(label="Switch",command=setSwitch)
 toolbar.add_cascade(label="Ajouter",menu=add_menu)
 
-##Menu clique droit
-
+#Gestion des callbacks
 root.bind("<ButtonPress-1>",placeElmt)
 root.bind("<KeyPress>",changeSelector)
 root.mainloop()
