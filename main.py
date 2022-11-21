@@ -159,7 +159,21 @@ def placeElmt(e):
         switch.place(e.x,e.y)
     elif sel.etat == "Selection":
         return
-        
+    
+#Selection des elements avec les touches du clavier
+def changeSelector(e):
+    if not e.char:
+        return
+    elif e.char == "c":
+        sel.etat = "Client"
+    elif e.char == "s":
+        sel.etat = "Switch"
+    elif e.char == "r":
+        sel.etat = "Router"
+    elif e.char == "n":
+        sel.etat="Selection"
+    
+
 #Gestion des Menu
 toolbar = Menu(root)
 root.config(menu=toolbar)
@@ -172,6 +186,6 @@ toolbar.add_cascade(label="Ajouter",menu=add_menu)
 
 ##Menu clique droit
 
-
 root.bind("<ButtonPress-1>",placeElmt)
+root.bind("<KeyPress>",changeSelector)
 root.mainloop()
