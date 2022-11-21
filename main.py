@@ -45,8 +45,7 @@ class Router():
         return self.id
 
     def place(self,x,y):
-        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER,tags=self.id)
-        self.edit_menu.add_command(label=canva.itemcget(self.placeimg,"tags"))
+        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
         self.name = canva.create_text(x,y+40,text=self.displayname)
         routerList.append(self.displayname)
         canva.tag_bind(self.placeimg,"<Button-3>",self.edit)
@@ -77,6 +76,7 @@ class Router():
     
     def remove(self):
         canva.delete(self.placeimg)
+        canva.delete(self.name)
         
     
 class Client():
