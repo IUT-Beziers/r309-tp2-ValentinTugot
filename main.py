@@ -10,6 +10,12 @@ root.title('Schama')
 canva = Canvas(root,width=1920,height=1080,bg="ivory")
 canva.pack()
 
+def get_image_x(img):
+    return canva.coords(img)[0]
+
+def get_image_y(img):
+    return canva.coords(img)[1]
+
 #Changer l'état du selecteur
 def setRouter():
     sel.etat = "Router"
@@ -22,6 +28,9 @@ def setSwitch():
     
 def setDefault():
     sel.etat = "Selection"
+    
+def setLink():
+    sel.etat="Link"
     
 
 #Definition des objets
@@ -46,6 +55,7 @@ class Elements():
         self.name = canva.create_text(x,y+60,text=self.displayname)
         canva.tag_bind(self.placeimg,"<Button-3>",self.edit)
         canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
+        canva.tag_bind(self.placeimg,"<Button-1>",self.link)
         
     def rename_menu(self):
         self.rename_window = Toplevel(root)
@@ -98,6 +108,22 @@ class Elements():
             return
         canva.coords(self.placeimg,e.x,e.y)
         canva.coords(self.name,e.x,e.y+60)
+    
+    def link(self,e):
+        self.start = ""
+        self.end = ""
+        if sel.etat != "Link":
+            return
+        if self.start != "":
+            self.end = self
+            print(self.end)
+        else:
+            self.start = self
+        if self.start != "" and self.end != "":
+            print(self.start)
+            link = Cable(self.start,self.end)
+            link.place()
+    
     
 class Router(Elements):
     def __init__(self) -> None:
@@ -160,7 +186,17 @@ class Switch(Elements):
         super().remove()
         switchList.pop(self.index)
     
-            
+class Cable():
+    def __init__(self,start,end) -> None:
+        self.elmt = [start,end]
+        self.x1,self.y1 = get_image_x(start),get_image_y(start)
+        self.x2,self.y2 = get_image_x(end),get_image_y(end)
+    
+    def place(self):
+        canva.create_line(self.x1,self.y1,self.x2,self.y2,fill='black',width=5)
+        
+        
+        
 #Instancie le selecteur
 sel = Selector()
 
@@ -188,6 +224,8 @@ def changeSelector(e):
         sel.etat = "Switch"
     elif e.char == "r":
         sel.etat = "Router"
+    elif e.char == "l":
+        sel.etat = "Link"
     elif e.char == "n":
         sel.etat="Selection"
     
@@ -199,6 +237,7 @@ add_menu.add_command(label="Selection",command=setDefault)
 add_menu.add_command(label="Router",command=setRouter)
 add_menu.add_command(label="Client",command=setClient)
 add_menu.add_command(label="Switch",command=setSwitch)
+add_menu.add_command(label="Link",command=setLink)
 toolbar.add_cascade(label="Ajouter",menu=add_menu)
 
 #Gestion des callbacks
