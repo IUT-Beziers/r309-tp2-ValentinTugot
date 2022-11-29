@@ -109,21 +109,6 @@ class Elements():
         canva.coords(self.placeimg,e.x,e.y)
         canva.coords(self.name,e.x,e.y+60)
     
-    def link(self,e):
-        self.start = ""
-        self.end = ""
-        if sel.etat != "Link":
-            return
-        if self.start != "":
-            self.end = self
-            print(self.end)
-        else:
-            self.start = self
-        if self.start != "" and self.end != "":
-            print(self.start)
-            link = Cable(self.start,self.end)
-            link.place()
-    
     
 class Router(Elements):
     def __init__(self) -> None:
@@ -187,10 +172,9 @@ class Switch(Elements):
         switchList.pop(self.index)
     
 class Cable():
-    def __init__(self,start,end) -> None:
-        self.elmt = [start,end]
-        self.x1,self.y1 = get_image_x(start),get_image_y(start)
-        self.x2,self.y2 = get_image_x(end),get_image_y(end)
+    def __init__(self,x1,y1,x2,y2) -> None:
+        self.x1,self.y1 = x1,y1
+        self.x2,self.y2 = x2,y2
     
     def place(self):
         canva.create_line(self.x1,self.y1,self.x2,self.y2,fill='black',width=5)
