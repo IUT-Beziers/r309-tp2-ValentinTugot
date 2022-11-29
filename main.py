@@ -41,6 +41,12 @@ class Elements():
         self.edit_menu.add_command(label="Delete",command=self.remove)
         self.edit_menu.add_command(label="Icon",command=self.icon_menu)
         
+    def place(self,x,y):
+        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
+        self.name = canva.create_text(x,y+60,text=self.displayname)
+        canva.tag_bind(self.placeimg,"<Button-3>",self.edit)
+        canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
+        
     def rename_menu(self):
         self.rename_window = Toplevel(root)
         self.rename_window.title("Rename")
@@ -87,6 +93,12 @@ class Elements():
         self.image = ImageTk.PhotoImage((Image.open(self.filename)).resize((100,100)))
         canva.itemconfig(self.placeimg,image=self.image)
         self.icon_window.destroy()
+        
+    def move(self,e):
+        if sel.etat != "Selection":
+            return
+        canva.coords(self.placeimg,e.x,e.y)
+        canva.coords(self.name,e.x,e.y+60)
     
     
 class Router(Elements):
@@ -98,12 +110,9 @@ class Router(Elements):
         self.displayname = f'router{self.id}'
             
     def place(self,x,y):
-        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.name = canva.create_text(x,y+40,text=self.displayname)
+        super().place(x,y)
         routerList.append(self.displayname)
         self.index = routerList.index(self.displayname)
-        canva.tag_bind(self.placeimg,"<Button-3>",super().edit)
-        canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
         
     def rename(self):
         super().rename()
@@ -112,12 +121,6 @@ class Router(Elements):
     def remove(self):
         super().remove()
         routerList.pop(self.index)
-    
-    def move(self,e):
-        if sel.etat != "Selection":
-            return
-        canva.coords(self.placeimg,e.x,e.y)
-        canva.coords(self.name,e.x,e.y+40)
           
 class Client(Elements):
     def __init__(self) -> None:
@@ -127,12 +130,9 @@ class Client(Elements):
         self.displayname=f'client{self.id}'
         
     def place(self,x,y):
-        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.name = canva.create_text(x,y+60,text=self.displayname)
+        super().place(x,y)
         clientList.append(self.displayname)
         self.index = clientList.index(self.displayname)
-        canva.tag_bind(self.placeimg,"<Button-3>",self.edit)
-        canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
     
     def rename(self):
         super().rename()
@@ -141,12 +141,6 @@ class Client(Elements):
     def remove(self):
         super().remove()
         clientList.pop(self.index)
-        
-    def move(self,e):
-        if sel.etat != "Selection":
-            return
-        canva.coords(self.placeimg,e.x,e.y)
-        canva.coords(self.name,e.x,e.y+60)
             
 class Switch(Elements):
     def __init__(self) -> None:
@@ -156,12 +150,9 @@ class Switch(Elements):
         self.displayname=f'switch{self.id}'   
         
     def place(self,x,y):
-        self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.name = canva.create_text(x-15,y+35,text=self.displayname)
+        super().place(x,y)
         switchList.append(self.displayname)
         self.index= switchList.index(self.displayname)
-        canva.tag_bind(self.placeimg,"<Button-3>",self.edit)
-        canva.tag_bind(self.placeimg,"<B1-Motion>",self.move)
         
     def rename(self):
         super().rename()
@@ -170,12 +161,7 @@ class Switch(Elements):
     def remove(self):
         super().remove()
         switchList.pop(self.index)
-        
-    def move(self,e):
-        if sel.etat != "Selection":
-            return
-        canva.coords(self.placeimg,e.x,e.y)
-        canva.coords(self.name,e.x-15,e.y+35)
+    
             
 #Instancie le selecteur
 sel = Selector()
