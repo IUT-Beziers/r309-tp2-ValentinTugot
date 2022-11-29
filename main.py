@@ -66,9 +66,8 @@ class Elements():
         self.canvaicon = Canvas(self.icon_window,width=100,height=100)
         self.canvaicon.pack(side=TOP)
         self.canvaicon.create_image(0,0,image=self.image,anchor=NW)
-        self.upload_button = Button(self.icon_window,text="Upload Image",command=self.set_icon)
+        self.upload_button = Button(self.icon_window,text="Modify Image",command=self.set_icon)
         self.upload_button.place(x=45,y=100)
-        
         
     def edit(self,e):
         try:
@@ -99,7 +98,6 @@ class Elements():
             return
         canva.coords(self.placeimg,e.x,e.y)
         canva.coords(self.name,e.x,e.y+60)
-    
     
 class Router(Elements):
     def __init__(self) -> None:
