@@ -1,11 +1,13 @@
 from tkinter import *
 from PIL import Image,ImageTk
+from tkinter import filedialog
+from tkinter.filedialog import askopenfile
 
 #Definition de la fenêtre et du canva
 root = Tk()
 root.geometry("1280x720")
 root.title('Schama')
-canva = Canvas(root,width=1280,height=720,bg="ivory")
+canva = Canvas(root,width=1920,height=1080,bg="ivory")
 canva.pack()
 
 #Changer l'état du selecteur
@@ -37,6 +39,7 @@ class Elements():
         self.edit_menu = Menu(root)
         self.edit_menu.add_command(label="Rename",command=self.rename_menu)
         self.edit_menu.add_command(label="Delete",command=self.remove)
+        self.edit_menu.add_command(label="Icon",command=self.icon_menu)
         
     def rename_menu(self):
         self.rename_window = Toplevel(root)
@@ -49,6 +52,18 @@ class Elements():
         self.confirm_button = Button(self.rename_window,text="Rename",command=self.rename)
         self.confirm_button.pack(side="bottom")
     
+    def icon_menu(self):
+        self.icon_window = Toplevel(root)
+        self.icon_window.title("Icon Informations")
+        self.icon_window.geometry("200x200")
+        self.icon_window.resizable(False,False)
+        self.canvaicon = Canvas(self.icon_window,width=100,height=100)
+        self.canvaicon.pack(side=TOP)
+        self.canvaicon.create_image(0,0,image=self.image,anchor=NW)
+        self.upload_button = Button(self.icon_window,text="Upload Image",command=self.set_icon)
+        self.upload_button.place(x=45,y=100)
+        
+        
     def edit(self,e):
         try:
             #Bind la popup du menu clique droit
@@ -66,13 +81,21 @@ class Elements():
         canva.delete(self.placeimg)
         canva.delete(self.name)
     
+    def set_icon(self):
+        self.image_type = [('Png Files', '*.png'),('Jpg Files', '*jpg')]
+        self.filename= filedialog.askopenfilename(filetypes=self.image_type)
+        self.image = ImageTk.PhotoImage((Image.open(self.filename)).resize((100,100)))
+        canva.itemconfig(self.placeimg,image=self.image)
+        self.icon_window.destroy()
+    
     
 class Router(Elements):
     def __init__(self) -> None:
         super().__init__()
         self.image = ImageTk.PhotoImage((Image.open("assets/router.png")).resize((100,100)))
+        self.type = "router"
         self.id = len(routerList)
-        self.displayname=f'router{self.id}'
+        self.displayname = f'router{self.id}'
             
     def place(self,x,y):
         self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
