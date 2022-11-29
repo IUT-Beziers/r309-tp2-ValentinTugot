@@ -4,7 +4,7 @@ from PIL import Image,ImageTk
 #Definition de la fenêtre et du canva
 root = Tk()
 root.geometry("1280x720")
-root.title('Cisco Packet Hesser')
+root.title('Schama')
 canva = Canvas(root,width=1280,height=720,bg="ivory")
 canva.pack()
 
@@ -38,9 +38,6 @@ class Elements():
         self.edit_menu.add_command(label="Rename",command=self.rename_menu)
         self.edit_menu.add_command(label="Delete",command=self.remove)
         
-    def getID(self):
-        return self.id
-    
     def rename_menu(self):
         self.rename_window = Toplevel(root)
         self.rename_window.title("Rename")
@@ -73,20 +70,12 @@ class Elements():
 class Router(Elements):
     def __init__(self) -> None:
         super().__init__()
-        self.img = (Image.open("assets/router.png"))
-        self.resize = self.img.resize((100,100))
-        self.image = ImageTk.PhotoImage(self.resize)
+        self.image = ImageTk.PhotoImage((Image.open("assets/router.png")).resize((100,100)))
         self.id = len(routerList)
-        self.displayname=f'router{self.getID()}'
-        
-    
-    def replace(self,e):
-        self.place(e.x,e.y)
-    
+        self.displayname=f'router{self.id}'
+            
     def place(self,x,y):
         self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
-        self.initx = x
-        self.inity = y
         self.name = canva.create_text(x,y+40,text=self.displayname)
         routerList.append(self.displayname)
         self.index = routerList.index(self.displayname)
@@ -110,11 +99,9 @@ class Router(Elements):
 class Client(Elements):
     def __init__(self) -> None:
         super().__init__()
-        self.img = (Image.open("assets/client.png"))
-        self.resize = self.img.resize((100,100))
-        self.image = ImageTk.PhotoImage(self.resize)
+        self.image = ImageTk.PhotoImage((Image.open("assets/client.png")).resize((100,100)))
         self.id = len(clientList)
-        self.displayname=f'client{self.getID()}'
+        self.displayname=f'client{self.id}'
         
     def place(self,x,y):
         self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
@@ -141,11 +128,9 @@ class Client(Elements):
 class Switch(Elements):
     def __init__(self) -> None:
         super().__init__()
-        self.img = (Image.open("assets/switch.png"))
-        self.resize = self.img.resize((100,100))
-        self.image = ImageTk.PhotoImage(self.resize)
+        self.image = ImageTk.PhotoImage((Image.open("assets/switch.png")).resize((100,100)))
         self.id = len(switchList)
-        self.displayname=f'switch{self.getID()}'   
+        self.displayname=f'switch{self.id}'   
         
     def place(self,x,y):
         self.placeimg = canva.create_image(x,y,image=self.image,anchor=CENTER)
